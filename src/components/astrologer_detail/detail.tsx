@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, JSX } from "react";
 import {
   Star,
   Moon,
@@ -44,7 +44,6 @@ import {
   Diamond,
   Flame,
   Lightbulb,
-  Meditation,
   Compass,
   Mountain,
   Sunrise,
@@ -55,11 +54,23 @@ import {
   X,
 } from "lucide-react";
 
+type Service = {
+  id: number;
+  title: string;
+  description: string;
+  icon: JSX.Element;
+  price: string;
+  duration: string;
+  popular?: boolean;
+  features: string[];
+};
+
 const AstrologerDetail = () => {
   const [currentReview, setCurrentReview] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
-  const [selectedService, setSelectedService] = useState(null);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+
   const [showBookingModal, setShowBookingModal] = useState(false);
 
   useEffect(() => {
@@ -692,7 +703,7 @@ const AstrologerDetail = () => {
             <span className="text-slate-400">• 500+ Happy Clients</span>
           </div>
         </div>
-        
+
       </div>
     </div>
   );
