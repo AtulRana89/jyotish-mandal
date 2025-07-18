@@ -1,12 +1,15 @@
 import React from "react";
 
 export const Footer = () => (
-  <footer className="bg-[#c0bcb5] text-[#4a6c6f] py-10 px-6 mt-12">
+  <footer
+    style={{ backgroundColor: "oklch(85.2% .199 91.936)" }}
+    className="text-[#4a6c6f] py-10 px-6 "
+  >
     <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 text-sm">
       {/* Brand Info */}
       <div>
         <h3 className="text-[#ff3366] text-lg font-semibold mb-3">JyotishMandal</h3>
-        <p className="text-[#4a6c6f]">
+        <p>
           Accurate Horoscope & Remedies since 2000. Your guide to a balanced life.
         </p>
       </div>
@@ -32,7 +35,6 @@ export const Footer = () => (
       <div>
         <h3 className="text-[#ff3366] text-lg font-semibold mb-3">Follow Us</h3>
         <div className="flex space-x-4 mt-2">
-          {/* Replace with real icons/links */}
           <a href="#" className="hover:text-[#d81e5b] transition text-xl">🌐</a>
           <a href="#" className="hover:text-[#d81e5b] transition text-xl">📘</a>
           <a href="#" className="hover:text-[#d81e5b] transition text-xl">📷</a>
