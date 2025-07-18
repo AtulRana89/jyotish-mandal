@@ -24,12 +24,13 @@ import {
   Zap,
   Gift,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const Home: React.FC = () => {
   const [currentReview, setCurrentReview] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [activeQuestion, setActiveQuestion] = useState(0);
-
+  const router = useRouter();
   useEffect(() => {
     setIsVisible(true);
     const interval = setInterval(() => {
@@ -247,7 +248,7 @@ const Home: React.FC = () => {
               Illuminate your path with ancient Vedic wisdom and cosmic guidance
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-gradient-to-r from-yellow-500 to-yellow-400 hover:from-yellow-400 hover:to-yellow-300 text-slate-800 px-8 py-3 rounded-full font-semibold text-lg transform hover:scale-105 transition-all duration-200 shadow-2xl hover:shadow-yellow-400/30">
+              <button onClick={()=>router.push("/booking")} className="bg-gradient-to-r from-yellow-500 to-yellow-400 hover:from-yellow-400 hover:to-yellow-300 text-slate-800 px-8 py-3 rounded-full font-semibold text-lg transform hover:scale-105 transition-all duration-200 shadow-2xl hover:shadow-yellow-400/30">
                 Book Consultation
               </button>
               <button className="border-2 border-yellow-400 hover:bg-yellow-400 hover:bg-opacity-10 hover:border-yellow-300 px-8 py-3 rounded-full font-semibold text-lg transform hover:scale-105 transition-all duration-200 shadow-lg">
@@ -553,7 +554,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 bg-black/20 border-t border-white/10">
+      {/* <footer className="py-12 bg-black/20 border-t border-white/10">
         <div className="container mx-auto px-4 text-center">
           <div className="flex justify-center items-center mb-4">
             <Moon className="w-8 h-8 text-amber-400 mr-2" />
@@ -579,7 +580,7 @@ const Home: React.FC = () => {
             </a>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 };

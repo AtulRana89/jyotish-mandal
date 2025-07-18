@@ -14,6 +14,7 @@ import {
   X,
   AlertCircle,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // Type definitions for form schema
 interface BaseFieldSchema {
@@ -141,6 +142,7 @@ const BookConsultation = () => {
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string>("");
+  const router = useRouter()
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -152,7 +154,7 @@ const BookConsultation = () => {
   });
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [formTouched, setFormTouched] = useState<FormTouched>({});
-
+  
   const astrologers: Astrologer[] = [
     {
       id: 1,
@@ -350,6 +352,7 @@ const BookConsultation = () => {
 
   const handleSubmit = () => {
     // Mark all fields as touched
+    router("/payment")
     const allTouched: FormTouched = {};
     Object.keys(formData).forEach((key) => {
       allTouched[key] = true;
@@ -415,8 +418,11 @@ const BookConsultation = () => {
               {astrologers.map((astrologer) => (
                 <div
                   key={astrologer.id}
-                  onClick={() =>
-                    astrologer.available && setSelectedAstrologer(astrologer)
+                  onClick={() =>{
+                    router.push("/astrologer_details")
+                     astrologer.available && setSelectedAstrologer(astrologer)
+                  }
+                   
                   }
                   className={`relative p-6 rounded-xl border-2 cursor-pointer transition-all duration-300 ${
                     selectedAstrologer?.id === astrologer.id

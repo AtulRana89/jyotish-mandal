@@ -53,6 +53,7 @@ import {
   TreePine,
   X,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type Service = {
   id: number;
@@ -72,7 +73,7 @@ const AstrologerDetail = () => {
   const [selectedService, setSelectedService] = useState<Service | null>(null);
 
   const [showBookingModal, setShowBookingModal] = useState(false);
-
+  const router = useRouter();
   useEffect(() => {
     setIsVisible(true);
     const interval = setInterval(() => {
@@ -415,7 +416,7 @@ const AstrologerDetail = () => {
 
                 <div className="flex gap-4">
                   <button
-                    onClick={() => setShowBookingModal(true)}
+                    onClick={() => router.push("/booking")}
                     className="flex-1 bg-gradient-to-r from-yellow-500 to-yellow-400 hover:from-yellow-400 hover:to-yellow-300 text-slate-800 py-3 px-6 rounded-xl font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-yellow-400/30"
                   >
                     Book Consultation
@@ -703,9 +704,8 @@ const AstrologerDetail = () => {
             <span className="text-slate-400">• 500+ Happy Clients</span>
           </div>
         </div>
-
       </div>
     </div>
   );
 };
-export default AstrologerDetail
+export default AstrologerDetail;
