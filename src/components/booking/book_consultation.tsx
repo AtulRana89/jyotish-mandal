@@ -352,7 +352,7 @@ const BookConsultation = () => {
 
   const handleSubmit = () => {
     // Mark all fields as touched
-    router("/payment")
+    router.push("/payment")
     const allTouched: FormTouched = {};
     Object.keys(formData).forEach((key) => {
       allTouched[key] = true;
