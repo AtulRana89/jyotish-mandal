@@ -109,7 +109,7 @@ const PaymentSection: React.FC = () => {
 
   if (paymentSuccess) {
     return (
-      <div className="max-w-4xl mx-auto p-6">
+      <div className="max-w-4xl mx-auto  p-6">
         <div className="bg-gradient-to-br from-purple-900/20 to-indigo-900/20 backdrop-blur-sm border border-purple-500/20 rounded-2xl p-8 text-center">
           <div className="mb-6">
             <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -144,7 +144,7 @@ const PaymentSection: React.FC = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="max-w-6x mx-auto  bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6">
       <div className="text-center mb-8">
         <div className="flex items-center justify-center gap-2 mb-4">
           <Sparkles className="w-8 h-8 text-yellow-400" />
