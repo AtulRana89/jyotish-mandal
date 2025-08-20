@@ -1,14 +1,13 @@
 
 "use client"
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Star,
   Clock,
-  MapPin,
+
   Calendar,
   User,
-  Phone,
-  Mail,
+
   CreditCard,
   Check,
   X,

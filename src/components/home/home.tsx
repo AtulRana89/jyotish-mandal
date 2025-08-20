@@ -5,7 +5,7 @@ import {
   Moon,
   Sun,
   Heart,
-  Users,
+
   BookOpen,
   Calendar,
   Sparkles,
@@ -13,16 +13,10 @@ import {
   Shield,
   Clock,
   Award,
-  Phone,
-  Mail,
-  MapPin,
-  CheckCircle,
-  User,
+
   Globe,
   TrendingUp,
-  MessageCircle,
-  Zap,
-  Gift,
+
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 

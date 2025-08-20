@@ -17,7 +17,7 @@ const QRCode = ({ value, size }:any) => (
   </div>
 );
 
-export default function PaymentPage() {
+export default function PaymentQR() {
   const [timeLeft, setTimeLeft] = useState(240); // 4 minutes in seconds
   const [isExpired, setIsExpired] = useState(false);
   

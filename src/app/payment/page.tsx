@@ -1,9 +1,13 @@
-import PaymentSection from '@/components/payment/payment'
+//import PaymentSection from '@/components/payment/payment'
+import PaymentQR from '@/components/payment/QR-payment'
 import React from 'react'
 
 function Payment() {
   return (
-    <div><PaymentSection/></div>
+    <div>
+      {/* <PaymentSection/> */}
+      <PaymentQR/>
+      </div>
   )
 }
 
