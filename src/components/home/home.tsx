@@ -245,8 +245,8 @@ const Home: React.FC = () => {
               <button onClick={()=>router.push("/booking")} className="bg-gradient-to-r from-yellow-500 to-yellow-400 hover:from-yellow-400 hover:to-yellow-300 text-slate-800 px-8 py-3 rounded-full font-semibold text-lg transform hover:scale-105 transition-all duration-200 shadow-2xl hover:shadow-yellow-400/30">
                 Book Consultation
               </button>
-              <button className="border-2 border-yellow-400 hover:bg-yellow-400 hover:bg-opacity-10 hover:border-yellow-300 px-8 py-3 rounded-full font-semibold text-lg transform hover:scale-105 transition-all duration-200 shadow-lg">
-                Learn More
+              <button onClick={()=>router.push("/free-kundali")} className="border-2 border-yellow-400 hover:bg-yellow-400 hover:bg-opacity-10 hover:border-yellow-300 px-8 py-3 rounded-full font-semibold text-lg transform hover:scale-105 transition-all duration-200 shadow-lg">
+                Free Kundali Online
               </button>
             </div>
           </div>

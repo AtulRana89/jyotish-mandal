@@ -1,10 +1,14 @@
 "use client"
 
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { ChevronDown } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area"
 
 export const Header = () => {
   const [isPujaOpen, setIsPujaOpen] = useState(false);
+  const [isFreeOpen, setIsFreeOpen] = useState(false);
+  const router = useRouter();
 
   const pujaMenu = [
     {
@@ -62,6 +66,14 @@ export const Header = () => {
     },
   ];
 
+  const freeMenu = [
+    {
+      title: "",
+      items: [
+        { label: "Free Kundali Online", href: "/free-kundali" },
+      ],
+    },
+  ];
   return (
     <header
       style={{ backgroundColor: "oklch(85.2% .199 91.936)" }}
@@ -90,9 +102,10 @@ export const Header = () => {
           >
             <a
               href="#"
-              className="hover:text-[#d81e5b] transition-colors duration-200"
+              className="hover:text-[#d81e5b] transition-colors duration-200 inline-flex items-center gap-1"
             >
               Puja
+              <ChevronDown size={14} className="mt-[1px]" aria-hidden="true" />
             </a>
 
             {isPujaOpen && (
@@ -108,12 +121,13 @@ export const Header = () => {
                     <ul className="space-y-2">
                       {menu.items.map((item, i) => (
                         <li key={i}>
-                          <a
+                          <Link
+                            // href={item.href}
                             href="#"
                             className="block px-2 py-1 rounded-md hover:bg-[#d56aa0]/20 hover:text-[#372554] transition-colors duration-200"
                           >
                             {item}
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -123,6 +137,40 @@ export const Header = () => {
             )}
           </div>
 
+
+          {/* Free Service with dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setIsFreeOpen(true)}
+            onMouseLeave={() => setIsFreeOpen(false)}
+          >
+            <a
+              href="#"
+              className="hover:text-[#d81e5b] transition-colors duration-200 inline-flex items-center gap-1"
+            >
+              Free Service
+              <ChevronDown size={14} className="mt-[1px]" aria-hidden="true" />
+            </a>
+
+            {isFreeOpen && (
+              <div
+                style={{ backgroundColor: "oklch(85.2% .199 91.936)" }}
+                className="absolute top-full left-0 mt- shadow-lg rounded-xl p-4 z-50 border border-[#d56aa0]/30 min-w-[220px]"
+              >
+                <ul className="space-y-2">
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => router.push("/free-kundali")}
+                      className="block w-full text-left px-2 py-1 rounded-md hover:bg-[#d56aa0]/20 hover:text-[#372554] transition-colors duration-200"
+                    >
+                      Free Kundali Online
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
           {["Ask", "Career", "Love", "Marriage", "Finance", "Talk", "Education"].map(
             (link) => (
               <a
