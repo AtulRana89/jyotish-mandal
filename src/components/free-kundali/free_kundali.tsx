@@ -286,7 +286,7 @@ const FreeKundali = () => {
                   onChange={handleChange}
                   type="text"
                   placeholder={t.name}
-                  className="w-full rounded-lg border border-[#d56aa0]/30 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#d56aa0]/40"
+                  className="w-full rounded-lg border border-[#d56aa0]/30 px-3 py-2 text-[#372554] placeholder:text-[#7b8c8e] focus:outline-none focus:ring-2 focus:ring-[#d56aa0]/40"
                   required
                 />
               </div>
