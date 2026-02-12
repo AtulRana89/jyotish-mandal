@@ -1,7 +1,7 @@
 "use client"
 
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Link } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
