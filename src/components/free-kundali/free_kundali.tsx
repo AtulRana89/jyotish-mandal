@@ -12,6 +12,8 @@ interface FormState {
   birthMinute: string;
   birthPeriod: string;
   birthPlace: string;
+  latitude: string;
+  longitude: string;
   email: string;
   phone: string;
 }
@@ -26,6 +28,8 @@ const initialState: FormState = {
   birthMinute: "",
   birthPeriod: "",
   birthPlace: "",
+  latitude: "",
+  longitude: "",
   email: "",
   phone: "",
 };
@@ -62,6 +66,15 @@ const translations: Record<Language, Record<string, string>> = {
     other: "अन्य",
     loading: "कृपया प्रतीक्षा करें...",
     error: "कुंडली लोड नहीं हो सकी।",
+    edit: "विवरण संपादित करें",
+    sections_birth: "जन्म विवरण",
+    sections_kundali: "कुंडली डेटा",
+    sections_charts: "D1–D60 चार्ट",
+    sections_dosha: "दोष",
+    sections_planets: "ग्रह स्थिति",
+    sections_predictions: "भविष्यवाणी",
+    sections_remedies: "उपाय",
+    sections_pdf: "पीडीएफ रिपोर्ट",
   },
   en: {
     title: "Free Kundali Online",
@@ -82,6 +95,15 @@ const translations: Record<Language, Record<string, string>> = {
     other: "Other",
     loading: "Please wait...",
     error: "Unable to load kundali.",
+    edit: "Edit Details",
+    sections_birth: "Birth Details",
+    sections_kundali: "Kundali Data",
+    sections_charts: "D1–D60 Charts",
+    sections_dosha: "Dosha",
+    sections_planets: "Planet Positions",
+    sections_predictions: "Predictions",
+    sections_remedies: "Remedies",
+    sections_pdf: "PDF Report",
   },
   pa: {
     title: "ਮੁਫ਼ਤ ਕੁੰਡਲੀ ਆਨਲਾਈਨ",
@@ -102,6 +124,15 @@ const translations: Record<Language, Record<string, string>> = {
     other: "ਹੋਰ",
     loading: "ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ...",
     error: "ਕੁੰਡਲੀ ਲੋਡ ਨਹੀਂ ਹੋ ਸਕੀ।",
+    edit: "ਵੇਰਵੇ ਸੰਪਾਦਿਤ ਕਰੋ",
+    sections_birth: "ਜਨਮ ਵੇਰਵੇ",
+    sections_kundali: "ਕੁੰਡਲੀ ਡਾਟਾ",
+    sections_charts: "D1–D60 ਚਾਰਟ",
+    sections_dosha: "ਦੋਸ਼",
+    sections_planets: "ਗ੍ਰਹਿ ਸਥਿਤੀਆਂ",
+    sections_predictions: "ਭਵਿੱਖਬਾਣੀ",
+    sections_remedies: "ਉਪਾਇ",
+    sections_pdf: "ਪੀਡੀਐਫ਼ ਰਿਪੋਰਟ",
   },
   gu: {
     title: "ફ્રી કુંડળી ઓનલાઇન",
@@ -122,6 +153,15 @@ const translations: Record<Language, Record<string, string>> = {
     other: "અન્ય",
     loading: "કૃપા કરીને રાહ જુઓ...",
     error: "કુંડળી લોડ થઈ શકી નથી.",
+    edit: "વિગતો સંપાદિત કરો",
+    sections_birth: "જન્મ વિગતો",
+    sections_kundali: "કુંડળી ડેટા",
+    sections_charts: "D1–D60 ચાર્ટ્સ",
+    sections_dosha: "દોષ",
+    sections_planets: "ગ્રહ સ્થિતિ",
+    sections_predictions: "ભવિષ્યવાણી",
+    sections_remedies: "ઉપાય",
+    sections_pdf: "પીડીเอફ રિપોર્ટ",
   },
 };
 
@@ -134,7 +174,7 @@ const FreeKundali = () => {
   const [kundali, setKundali] = useState<KundaliResponse | null>(null);
   const [activeSection, setActiveSection] = useState(0);
   const [placeSuggestions, setPlaceSuggestions] = useState<
-    Array<{ display_name: string }>
+    Array<{ display_name: string; lat: string; lon: string }>
   >([]);
   const [isPlaceOpen, setIsPlaceOpen] = useState(false);
 
@@ -146,7 +186,12 @@ const FreeKundali = () => {
   };
 
   const handlePlaceChange = async (value: string) => {
-    setForm((prev) => ({ ...prev, birthPlace: value }));
+    setForm((prev) => ({
+      ...prev,
+      birthPlace: value,
+      latitude: "",
+      longitude: "",
+    }));
     if (!value || value.length < 3) {
       setPlaceSuggestions([]);
       setIsPlaceOpen(false);
@@ -167,7 +212,11 @@ const FreeKundali = () => {
         setIsPlaceOpen(false);
         return;
       }
-      const data = (await res.json()) as Array<{ display_name: string }>;
+      const data = (await res.json()) as Array<{
+        display_name: string;
+        lat: string;
+        lon: string;
+      }>;
       setPlaceSuggestions(data);
       setIsPlaceOpen(true);
     } catch {
@@ -176,10 +225,23 @@ const FreeKundali = () => {
     }
   };
 
-  const handlePlaceSelect = (place: { display_name: string }) => {
-    setForm((prev) => ({ ...prev, birthPlace: place.display_name }));
+  const handlePlaceSelect = (place: { display_name: string; lat: string; lon: string }) => {
+    setForm((prev) => ({
+      ...prev,
+      birthPlace: place.display_name,
+      latitude: place.lat,
+      longitude: place.lon,
+    }));
     setPlaceSuggestions([]);
     setIsPlaceOpen(false);
+  };
+
+  const to24Hour = (hour: string, period: string) => {
+    const h = parseInt(hour, 10);
+    if (Number.isNaN(h)) return "";
+    if (period === "AM") return h === 12 ? 0 : h;
+    if (period === "PM") return h === 12 ? 12 : h + 12;
+    return h;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -193,10 +255,14 @@ const FreeKundali = () => {
         form.birthDay && form.birthMonth && form.birthYear
           ? `${form.birthYear}-${form.birthMonth}-${form.birthDay}`
           : "";
+      const hour24 = to24Hour(form.birthHour, form.birthPeriod);
       const birthTime =
         form.birthHour && form.birthMinute && form.birthPeriod
-          ? `${form.birthHour.padStart(2, "0")}:${form.birthMinute.padStart(2, "0")} ${form.birthPeriod}`
+          ? `${String(hour24).padStart(2, "0")}:${form.birthMinute.padStart(2, "0")}:00`
           : "";
+      if (!form.latitude || !form.longitude) {
+        throw new Error("missing_location");
+      }
       const res = await fetch("/api/kundali", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -208,7 +274,7 @@ const FreeKundali = () => {
       const data = (await res.json()) as KundaliResponse;
       setKundali(data);
     } catch (err) {
-      setError("error");
+      setError((err as Error).message || "error");
       setKundali(null);
     } finally {
       setIsLoading(false);
@@ -220,7 +286,7 @@ const FreeKundali = () => {
   const sections = kundali?.sections ?? [
     {
       id: "birth",
-      title: "Birth Details",
+      title: t.sections_birth,
       content: {
         name: form.name,
         gender: form.gender,
@@ -235,13 +301,15 @@ const FreeKundali = () => {
         birthPlace: form.birthPlace,
       },
     },
-    { id: "charts", title: "D1–D60 Charts", content: "Pending API data" },
-    { id: "dosha", title: "Dosha", content: "Pending API data" },
-    { id: "planets", title: "Planet Positions", content: "Pending API data" },
-    { id: "predictions", title: "Predictions", content: "Pending API data" },
-    { id: "remedies", title: "Remedies", content: "Pending API data" },
-    { id: "pdf", title: "PDF Report", content: "Pending API data" },
+    { id: "charts", title: t.sections_charts, content: "Pending API data" },
+    { id: "dosha", title: t.sections_dosha, content: "Pending API data" },
+    { id: "planets", title: t.sections_planets, content: "Pending API data" },
+    { id: "predictions", title: t.sections_predictions, content: "Pending API data" },
+    { id: "remedies", title: t.sections_remedies, content: "Pending API data" },
+    { id: "pdf", title: t.sections_pdf, content: "Pending API data" },
   ];
+
+  const showResults = submitted && kundali && !isLoading && !error;
 
   return (
     <section
@@ -258,11 +326,12 @@ const FreeKundali = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-[2fr_3fr] gap-8 items-start">
-          <form
-            onSubmit={handleSubmit}
-            className="bg-white rounded-2xl shadow-md border border-[#d56aa0]/20 p-6 space-y-4"
-          >
+        <div className={showResults ? "space-y-6" : "grid lg:grid-cols-[2fr_3fr] gap-8 items-start"}>
+          {!showResults && (
+            <form
+              onSubmit={handleSubmit}
+              className="bg-white rounded-2xl shadow-md border border-[#d56aa0]/20 p-6 space-y-4"
+            >
             <div className="space-y-1">
               <label className="text-sm text-[#372554]">{t.lang}</label>
               <select
@@ -479,9 +548,10 @@ const FreeKundali = () => {
               {t.generate}
             </button>
           </form>
+          )}
 
-          <div className="bg-white rounded-2xl shadow-md border border-[#d56aa0]/20 p-6">
-            {!submitted ? (
+          <div className={`bg-white rounded-2xl shadow-md border border-[#d56aa0]/20 p-6 ${showResults ? "w-full" : ""}`}>
+            {!submitted && (
               <div className="text-[#4a6c6f]">
                 <h2 className="text-xl font-semibold text-[#372554] mb-2">
                   {t.summaryTitle}
@@ -490,7 +560,8 @@ const FreeKundali = () => {
                   {t.empty}
                 </p>
               </div>
-            ) : (
+            )}
+            {(submitted || showResults) && (
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold text-[#372554]">
@@ -499,9 +570,23 @@ const FreeKundali = () => {
                   {isLoading && (
                     <span className="text-sm text-[#4a6c6f]">{t.loading}</span>
                   )}
+                  {showResults && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSubmitted(false);
+                        setKundali(null);
+                      }}
+                      className="text-sm text-[#d81e5b] hover:underline"
+                    >
+                      {t.edit}
+                    </button>
+                  )}
                 </div>
                 {error && (
-                  <div className="text-sm text-red-600">{t.error}</div>
+                  <div className="text-sm text-red-600">
+                    {error === "missing_location" ? "Please select a place from suggestions." : t.error}
+                  </div>
                 )}
                 <div className="grid md:grid-cols-[220px_1fr] gap-4">
                   <div className="space-y-2">
